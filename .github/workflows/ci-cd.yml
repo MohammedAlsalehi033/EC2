@@ -30,4 +30,4 @@ jobs:
           EC2_KEY: ${{ secrets.EC2_KEY }}
         run: |
           echo "Deploying to EC2..."
-          ssh -o StrictHostKeyChecking=no -i $EC2_KEY $EC2_USER@$EC2_HOST "cd /home/ubuntu/your-repo-name && git pull origin main && npm install && pm2 restart my-node-app"
+          ssh -o StrictHostKeyChecking=no -i $EC2_KEY $EC2_USER@$EC2_HOST "cd /home/ubuntu/my-node-app/my-node-app/my-node-app && git pull origin main && npm install && pm2 restart my-node-app"

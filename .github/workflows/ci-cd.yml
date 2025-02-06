@@ -31,4 +31,4 @@ jobs:
           chmod 600 deploy_key.pem
 
           # SSH into the EC2 instance and deploy
-          ssh -o StrictHostKeyChecking=no -i deploy_key.pem $EC2_USER@$EC2_HOST "cd /home/ubuntu/your-repo-name && git pull origin main && npm install && pm2 restart my-node-app"
+          ssh -o StrictHostKeyChecking=no -i deploy_key.pem $EC2_USER@$EC2_HOST "cd /home/ubuntu/my-node-app/my-node-app/my-node-app && git pull origin main && npm install && pm2 restart my-node-app"

@@ -10,6 +10,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      
+    
       - name: Checkout code
         uses: actions/checkout@v3
 
@@ -30,5 +32,11 @@ jobs:
           echo "$EC2_KEY" > deploy_key.pem
           chmod 600 deploy_key.pem
 
-          # SSH into the EC2 instance and deploy
-          ssh -o StrictHostKeyChecking=no -i deploy_key.pem $EC2_USER@$EC2_HOST "cd /home/ubuntu/my-node-app/my-node-app/my-node-app && git pull origin main && npm install && pm2 restart my-node-app"
+           ssh -o StrictHostKeyChecking=no -i deploy_key.pem $EC2_USER@$EC2_HOST << 'EOF'
+          cd /home/ubuntu/my-node-app/my-node-app/my-node-app
+          git reset --hard  # Reset local changes
+          git clean -fd  # Remove untracked files (including package-lock.json)
+          git pull origin main
+          npm install
+          pm2 restart my-node-app
+           EOF

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat App</title>
+</head>
+<body>
+    <h2>Simple Chat App</h2>
+    <p>Your ID: <span id="userId"></span></p>
+    <input type="text" id="recipientId" placeholder="Enter recipient ID" />
+    <input type="text" id="messageInput" placeholder="Type a message" />
+    <button onclick="sendMessage()">Send</button>
+
+    <h3>Chat</h3>
+    <ul id="messages"></ul>
+
+    <script>
+        const ws = new WebSocket(`ws://${window.location.host}`);
+        let myUserId = '';
+
+        ws.onmessage = (event) => {
+            const data = JSON.parse(event.data);
+            if (data.type === 'WELCOME') {
+                myUserId = data.userID;
+                document.getElementById('userId').textContent = myUserId;
+            } else {
+                const li = document.createElement('li');
+                li.textContent = `From ${data.senderID}: ${data.text}`;
+                document.getElementById('messages').appendChild(li);
+            }
+        };
+
+        function sendMessage() {
+            const recipientID = document.getElementById('recipientId').value;
+            const text = document.getElementById('messageInput').value;
+
+            if (recipientID && text) {
+                ws.send(JSON.stringify({ type: 'CHAT', recipientID, text }));
+                document.getElementById('messageInput').value = '';
+            }
+        }
+    </script>
+</body>
+</html>

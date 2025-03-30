@@ -31,7 +31,7 @@ jobs:
           # Write the private key to a file
           echo "$EC2_KEY" > deploy_key.pem
           chmod 600 deploy_key.pem
-          echo EC2_KEY
+          echo $EC2_KEY
           ssh -o StrictHostKeyChecking=no -i deploy_key.pem $EC2_USER@$EC2_HOST << 'EOF'
           cd /home/ubuntu/my-node-app/my-node-app/my-node-app
           git reset --hard  # Reset local changes
